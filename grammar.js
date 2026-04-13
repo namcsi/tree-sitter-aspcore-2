@@ -21,6 +21,10 @@ module.exports = grammar({
 
     line_comment: (_) => token(choice(/%[^*\n\r][^\n\r]*/, "%")),
 
+      // we do not count nested matching block comment delimiters, as this would
+      // require an external scanner, and the official Asp-Core-2
+      // grammar doesn't do so either. To see how this could be done,
+      // see the clingo tree sitter grammar
     block_comment: (_) => token(seq("%*", /[^*]*\*+([^%*][^*]*\*+)*/, "%")),
 
     statement: ($) => choice($.integrity_constraint, $.rule, $.weak_constraint),
